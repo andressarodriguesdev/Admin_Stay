@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Hotel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <h1>Hotel Eclipse - Painel de gerenciamento de reservas</h1>
+</nav>
+<main>
+  <section id="clientes" class="card">
+    <h2>Clientes</h2>
+    <input type="text" id="buscarCliente" placeholder="Buscar cliente...">
+    <form id="clienteForm">
+      <input type="hidden" id="clienteId">
+      <input type="text" id="nomeCliente" placeholder="Nome">
+      <input type="email" id="emailCliente" placeholder="Email">
+      <input type="tel" id="telefoneCliente" placeholder="Telefone">
+      <button type="submit">Salvar</button>
+      <button type="button" id="cancelarCliente" class="hidden">Cancelar</button>
+    </form>
+    <ul id="listaClientes"></ul>
+  </section>
+
+  <section id="quartos" class="card">
+    <h2>Quartos</h2>
+    <input type="text" id="buscarQuarto" placeholder="Buscar quarto...">
+    <form id="quartoForm">
+      <input type="hidden" id="quartoId">
+      <input type="text" id="numeroQuarto" placeholder="Número">
+      <input type="number" id="precoQuarto" placeholder="Preço">
+      <select id="statusQuarto">
+        <option value="Disponível">Disponível</option>
+        <option value="Ocupado">Ocupado</option>
+      </select>
+      <button type="submit">Salvar</button>
+      <button type="button" id="cancelarQuarto" class="hidden">Cancelar</button>
+    </form>
+    <ul id="listaQuartos"></ul>
+  </section>
+
+  <section id="reservas" class="card">
+    <h2>Reservas</h2>
+    <input type="text" id="buscarReserva" placeholder="Buscar reserva...">
+    <form id="reservaForm">
+      <input type="hidden" id="reservaId">
+      <input type="text" id="idClienteReserva" placeholder="ID Cliente">
+      <input type="text" id="idQuartoReserva" placeholder="ID Quarto">
+      <input type="datetime-local" id="checkinReserva">
+      <input type="datetime-local" id="checkoutReserva">
+      <button type="submit">Salvar</button>
+      <button type="button" id="cancelarReserva" class="hidden">Cancelar</button>
+    </form>
+    <ul id="listaReservas"></ul>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

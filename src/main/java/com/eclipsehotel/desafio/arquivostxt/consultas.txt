@@ -1,0 +1,112 @@
+
+
+/*Sugestões de melhorias:
+
+Teste unitários: Eles garantem  que cada pedacinho do nosso código funcione corretamente. Isso ajuda a encontrar e corrigir erros antes que eles se tornem um problemão.
+
+Criptografia: Usar criptografia para armazenar dados sensíveis como senhas e informações pessoais dos clientes.
+
+CI/CD: Utilizar pipelines de CI/CD para automatizar a integração e a entrega contínua, assegurando que todas as mudanças sejam testadas e implementadas de forma eficiente.
+
+Autenticação e Autorização: (JWT) Autenticação autorização (roles, permissions) para proteger dados sensíveis.*/
+
+
+
+
+/*rooms (id, roomNumber, type, price)
+
+customers (id, name, email, phone, createdAt)
+
+reservations (id, customer_id, room_id, checkin, checkout, status)*/
+
+
+/*Quantos clientes temos na base?*/
+
+SELECT COUNT(*) AS total_clientes
+FROM CUSTOMERS;
+
+/*Quantos quartos temos cadastrados?*/
+
+SELECT COUNT(*) AS total_quartos
+FROM rooms;
+
+
+/*Quantas reservas em aberto o hotel possui no momento?*/
+
+
+SELECT COUNT(*) AS reservas_em_aberto
+FROM reservations
+WHERE status = 'SCHEDULED' OR status = 'IN_USE';
+
+
+/*Quantos quartos temos vagos no momento?*/
+
+SELECT COUNT(*) AS quartos_vagos
+FROM rooms
+WHERE id NOT IN (
+    SELECT room_id
+    FROM reservations
+    WHERE status = 'SCHEDULED' OR status = 'IN_USE'
+);
+
+/*Quantos quartos temos ocupados no momento?*/
+
+SELECT COUNT(DISTINCT room_id) AS quartos_ocupados
+FROM reservations
+WHERE status = 'IN_USE';
+
+
+/*Quantas reservas futuras o hotel possui?*/
+
+SELECT COUNT(*) AS reservas_futuras
+FROM reservations
+WHERE checkin > CURRENT_DATE AND status != 'CANCELED';
+
+
+/*Qual o quarto mais caro do hotel?*/
+
+SELECT *
+FROM rooms
+ORDER BY price DESC
+LIMIT 1;
+
+/*Qual o quarto com maior histórico de cancelamentos?*/
+
+SELECT room_id, COUNT(*) AS total_cancelamentos
+FROM reservations
+WHERE status = 'CANCELED'
+GROUP BY room_id
+ORDER BY total_cancelamentos DESC
+LIMIT 1;
+
+
+/*Liste todos os quartos e a quantidade de clientes que já ocuparam cada um*/
+
+
+SELECT r.id, r.roomNumber, COUNT(DISTINCT res.customer_id) AS total_clientes
+FROM rooms r
+LEFT JOIN reservations res ON r.id = res.room_id
+GROUP BY r.id, r.roomNumber
+ORDER BY r.id;
+
+
+/*Quais são os 3 quartos que possuem um histórico maior de ocupações?*/
+SELECT room_id, COUNT(*) AS total_ocupacoes
+
+FROM reservations
+WHERE status != 'CANCELED'
+GROUP BY room_id
+ORDER BY total_ocupacoes DESC
+LIMIT 3;
+
+
+/*Quem são os 10 clientes que possuem maior histórico de reservas*/
+
+SELECT customer_id, COUNT(*) AS total_reservas
+FROM reservations
+GROUP BY customer_id
+ORDER BY total_reservas DESC
+LIMIT 10;
+
+
+

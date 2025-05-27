@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 0;
+}
+nav {
+  background: url('./img/fundo.jpg') center/cover no-repeat;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 2rem 1rem; /* mais espaço vertical */
+  color: #fff; /* texto claro por cima */
+}
+
+nav::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); /* overlay escuro para melhorar contraste */
+    z-index: 0;
+}
+
+nav ul, nav h1 {
+    position: relative;
+    z-index: 1;
+}
+
+nav h1 {
+    margin: 0 0 1rem 0;
+    font-size: 2rem;
+}
+
+
+main {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    flex-wrap: wrap;
+}
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1rem;
+    flex: 1;
+    min-width: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.card h2 {
+    margin-top: 0;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+form input, form select {
+    width: 90%;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+form button {
+    background: #6a11cb;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-top: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+form button:hover {
+    background: #2575fc;
+}
+button.hidden {
+    display: none;
+}
+li {
+    background: #f0f0f0;
+    margin: 0.3rem 0;
+    padding: 0.5rem;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+li button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #6a11cb;
+    margin-left: 0.5rem;
+}
+li button:hover {
+    color: red;
+}
