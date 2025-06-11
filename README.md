@@ -1,159 +1,102 @@
-<<<<<<< HEAD
-# eclipse_hotel
-Eclipse Hotel API, um sistema back-end para gerenciamento de reservas de um hotel, usando Java com Spring Boot. O projeto tem como foco o domínio de APIs RESTful, banco de dados e testes com Postman e JUnit.
-=======
-![Banner para loja online de frete grátis para todo Brasil (4)](https://github.com/user-attachments/assets/c35529af-8934-4cee-b7e2-2a018b2900fb)
 
-# Eclipse Hotel API
 
-🛎️ **Eclipse Hotel API** é um sistema de gerenciamento de hotel desenvolvido em Java usando Spring Boot. Ele permite gerenciar clientes, quartos e reservas de forma eficiente.
+# 🛎️ AdminStay API
 
-## 📋 Sumário
-- [Requisitos](#requisitos)
-- [Instalação](#instalação)
-- [Uso](#uso)
-- [Consultas SQL](#consultas-sql)
-- [Melhorias Futuras](#melhorias-futuras)
-- [Contato](#contato)
+**AdminStay API** é um sistema **back‑end** em **Java 17 + Spring Boot** para gerenciamento de hotéis (clientes, quartos e reservas). O projeto prioriza boas práticas REST, documentação automática via Swagger e testes.
 
-## 🛠️ Requisitos
-- Java 17
-- Maven
-- Postman (para testar a API)
+> **Status:** 🚧 *em desenvolvimento*
 
-## 📥 Instalação
-1. Clone o repositório:
-    ```bash
-    git clone <URL_DO_SEU_REPOSITÓRIO>
-    ```
-2. Navegue até o diretório do projeto:
-    ```bash
-    cd eclipse-hotel-api
-    ```
-3. Compile e execute o projeto:
-    ```bash
-    mvn spring-boot:run
-    ```
+---
 
-## 🚀 Uso
-&nbsp;
+## ✨ Principais recursos
 
-### Endpoints
-- **GET /swagger-ui.html** - Acesse a documentação da API no Swagger.
-- **GET /h2-console** - Acesse o console do banco de dados H2.
-&nbsp;
-&nbsp;
-### Criar Clientes
-```http
-POST /customers
-Content-Type: application/json
+| Funcionalidade | Descrição |
+| -------------- | --------- |
+| CRUD de Clientes | Cadastro, listagem, atualização e exclusão de hóspedes |
+| CRUD de Quartos  | Controle completo dos quartos (tipo, preço, disponibilidade) |
+| CRUD de Reservas | Reservas com check‑in/out, status e regras de conflito |
+| Dashboard (futuro) | Métricas de ocupação, receitas e check‑ins |
 
-{
-  "name": "José Augusto",
-  "email": "je.doe@example.com",
-  "phone": "123432656"
-}
-&nbsp;
+
+## ⚙️ Stack & Ferramentas
+
+| Camada | Tecnologias |
+| ------ | ----------- |
+| **Linguagem** | Java 17 |
+| **Framework** | Spring Boot 3 (Web, Data JPA, Validation) |
+| **Banco** | H2 (memória & file‑based) para dev/teste |
+| **Build** | Maven |
+| **Documentação** | Swagger UI / OpenAPI 3 |
+| **Testes** | JUnit 5, Mockito & Postman |
+| **Futuro Front‑end** | React + Vite + Tyrant (repo a ser criado) |
+
+
+## 📋 Pré‑requisitos
+
+* JDK 17+
+* Maven 3.8+
+
+> Verifique: `java -version` e `mvn -version`.
+
+
+## 🚀 Como executar
+
+```bash
+# 1. Clone o repositório
+$ git clone https://github.com/SEU_USUARIO/adminstay-api.git
+$ cd adminstay-api
+
+# 2. Execute a aplicação
+$ mvn spring-boot:run
 ```
-### Criar Quartos
-```http
-POST /rooms
-Content-Type: application/json
 
-{
-  "roomNumber": 150,
-  "type": "Deluxe2",
-  "price": 250.0
-}
-&nbsp;
+A API iniciará em `http://localhost:8080`.
+
+### Swagger
+* UI: `http://localhost:8080/swagger-ui.html`
+* Spec: `http://localhost:8080/v3/api-docs`
+
+### Console H2 (opcional)
+* `http://localhost:8080/h2-console`
+* **JDBC URL:** `jdbc:h2:mem:adminstay`
+
+
+## 🧪 Testes
+
+```bash
+# Executar todos os testes de unidade e integração
+$ mvn test
 ```
-### Criar Reservas 
 
-```http
-POST /reservations
-Content-Type: application/json
-
-{
-  "customerId": 1,
-  "roomId": 1,
-  "checkin": "2024-08-01T14:00:00",
-  "checkout": "2024-08-10T12:00:00",
-  "status": "SCHEDULED"
-}
-```
-&nbsp;
-&nbsp;
-
-## 📊 Consultas SQL
+Coleção Postman disponível em `docs/postman/` para chamadas manuais.
 
 
-### Quantos clientes temos na base ?
+## 🗺️ Roadmap
 
-SELECT COUNT(*) AS total_clientes FROM customers;
-
-### Quantos quartos temos cadastrados?
-
-SELECT COUNT(*) AS total_quartos FROM rooms;
-
-### Quantas reservas em aberto o hotel possui no momento?
-
-SELECT COUNT(*) AS reservas_em_aberto
-FROM reservations
-WHERE status = 'SCHEDULED' OR status = 'IN_USE';
-
-### Quantos quartos temos vagos no momento?
-
-SELECT COUNT(*) AS quartos_vagos
-FROM rooms r
-WHERE NOT EXISTS (
-    SELECT 1
-    FROM reservations res
-    WHERE res.roomId = r.id
-    AND res.status = 'IN_USE'
-);
+- [ ] Autenticação & Autorização (Spring Security + JWT)
+- [ ] Deploy em Docker / Render / AWS
+- [ ] Integração com app front‑end (React + Vite + Tyrant)
+- [ ] Testes de Integração (Testcontainers)
+- [ ] Notificações para reservas futuras
 
 
-### Quantos quartos temos ocupados no momento?
+## 🤝 Contribuindo
 
-SELECT COUNT(*) AS quartos_ocupados
-FROM reservations
-WHERE status = 'IN_USE';
-
-### Quantas reservas futuras o hotel possui?
-
-SELECT COUNT(*) AS reservas_futuras
-FROM reservations
-WHERE checkin > CURRENT_TIMESTAMP;
-![Banner](.img/banner.jpg)
-
-### Qual o quarto mais caro do hotel?
-
-SELECT * FROM rooms
-ORDER BY price DESC
-LIMIT 1;
+1. Fork este repositório
+2. Crie sua feature branch: `git checkout -b feature/minha-feature`
+3. Commit suas mudanças: `git commit -m 'feat: Minha nova feature'`
+4. Push para a branch: `git push origin feature/minha-feature`
+5. Abra um Pull Request
 
 
-&nbsp;
-&nbsp;
+## 📄 Licença
 
+Este projeto está licenciado sob a licença **MIT** – veja o arquivo `LICENSE` para detalhes.
 
-## 🔧 Melhorias Futuras
-
-- Implementar autenticação e autorização.
-- Adicionar testes unitários e de integração.
-- Melhorar o tratamento de erros e mensagens de resposta.
-- Implementar notificações para reservas futuras.
-- Adicionar funcionalidades de relatórios gerenciais.
-
-&nbsp;
 
 ## 📞 Contato
 
-
-- Email: [andressa.rodrigues2172@gmail.com](mailto:andressa.rodrigues2172@gmail.com)  
-- LinkedIn: [andressarodrigues2172dev](https://www.linkedin.com/in/andressarodrigues2172dev)
-&nbsp;
-&nbsp;
-
-
->>>>>>> 799c54c (Estrutura inicial do backend)
+| | |
+| - | - |
+| **E‑mail** | [andressa.rodrigues2172@gmail.com](mailto:andressa.rodrigues2172@gmail.com) |
+| **LinkedIn** | [andressarodrigues2172dev](https://www.linkedin.com/in/andressarodrigues2172dev) |
