@@ -27,7 +27,8 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private RoomStatus status;
 
-
+    @Enumerated(EnumType.STRING)
+    private RoomType type;
 
 
 }

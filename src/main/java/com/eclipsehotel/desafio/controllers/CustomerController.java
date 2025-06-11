@@ -3,6 +3,7 @@ package com.eclipsehotel.desafio.controllers;
 
 import com.eclipsehotel.desafio.models.Customer;
 import com.eclipsehotel.desafio.services.CustomerService;
+import com.eclipsehotel.desafio.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +13,11 @@ import java.util.List;
 @RequestMapping("/customers")
 public class CustomerController {
 
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
+
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @GetMapping
     public List<Customer> getAllCustomers() {
