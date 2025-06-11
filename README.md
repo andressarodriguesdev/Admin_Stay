@@ -28,7 +28,7 @@
 | **Build** | Maven |
 | **Documentação** | Swagger UI / OpenAPI 3 |
 | **Testes** | JUnit 5, Mockito & Postman |
-| **Futuro Front‑end** | React + Vite + Tyrant (repo a ser criado) |
+| **Futuro Front‑end** | React + Vite + Tailwind (repo a ser criado) |
 
 
 ## 📋 Pré‑requisitos
