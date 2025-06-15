@@ -22,6 +22,8 @@ public class Customer {
 
     private String phone;
 
+    private String cpf;
+
     private LocalDateTime createAt;
 
     @PrePersist

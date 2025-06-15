@@ -44,7 +44,7 @@ public class RoomService {
     }
 
     public List<Room> getOccupiedRooms() {
-        return roomRepository.findByStatus(RoomStatus.OCCUPIED);
+        return roomRepository.findByStatus(RoomStatus.INDISPONIVEL);
     }
 
     public Room updateRoomStatus(Long id, RoomStatus status) {

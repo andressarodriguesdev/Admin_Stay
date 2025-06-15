@@ -1,8 +1,8 @@
 package com.eclipsehotel.desafio.models;
 
 public enum RoomStatus {
-    AVAILABLE,
-    OCCUPIED,
+    DISPONIVEL,
+    INDISPONIVEL,
     RESERVED,
     FREE,
     MAINTENANCE

@@ -33,6 +33,7 @@ public class CustomerService {
         existingCustomer.setName(customer.getName());
         existingCustomer.setEmail(customer.getEmail());
         existingCustomer.setPhone(customer.getPhone());
+        existingCustomer.setCpf(customer.getCpf());
         return customerRepository.save(existingCustomer);
     }
 
@@ -45,4 +46,6 @@ public class CustomerService {
     public Customer createCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
+
+
 }

@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
-    @Query("SELECT r FROM Room r WHERE r.id IN (SELECT res.room.id FROM Reservation res WHERE res.status = 'IN_USE')")
+    @Query("SELECT r FROM Room r WHERE r.id IN (SELECT res.room.id FROM Reservation res WHERE res.status = 'INDISPONIVEL')")
     List<Room> findOccupiedRooms();
     List<Room> findByStatus(RoomStatus status);
     Optional<Room> findByNumber(String number);

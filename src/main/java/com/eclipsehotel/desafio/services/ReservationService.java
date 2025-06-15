@@ -6,7 +6,6 @@ import com.eclipsehotel.desafio.repositorys.ReservationRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -27,12 +26,51 @@ public class ReservationService {
     }
 
     public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
+        List<Reservation> reservations = reservationRepository.findAll();
+        // Atualiza o status de cada reserva antes de retornar
+        reservations.forEach(this::updateReservationStatusBasedOnDates);
+        return reservations;
     }
 
     public Reservation getReservationById(Long id) {
-        return reservationRepository.findById(id)
+        Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Reserva não encontrada com id " + id));
+        // Atualiza o status da reserva antes de retornar
+        updateReservationStatusBasedOnDates(reservation);
+        return reservation;
+    }
+
+    // Método auxiliar para atualizar o status da reserva com base nas datas
+    private void updateReservationStatusBasedOnDates(Reservation reservation) {
+        LocalDateTime now = LocalDateTime.now();
+
+        // Não altera status se já estiver CANCELED ou ABSENCE
+        if (reservation.getStatus() == ReservationStatus.CANCELED || reservation.getStatus() == ReservationStatus.ABSENCE) {
+            return;
+        }
+
+        if (now.isBefore(reservation.getCheckin())) {
+            // Se a data atual é antes do check-in
+            if (reservation.getStatus() != ReservationStatus.SCHEDULED) {
+                reservation.setStatus(ReservationStatus.SCHEDULED);
+                reservationRepository.save(reservation);
+                roomService.updateRoomStatus(reservation.getRoom().getId(), RoomStatus.INDISPONIVEL); // Garante que o quarto está indisponível se agendado
+            }
+        } else if (now.isAfter(reservation.getCheckin()) && now.isBefore(reservation.getCheckout())) {
+            // Se a data atual está entre check-in e check-out
+            if (reservation.getStatus() != ReservationStatus.IN_USE) {
+                reservation.setStatus(ReservationStatus.IN_USE);
+                reservationRepository.save(reservation);
+                roomService.updateRoomStatus(reservation.getRoom().getId(), RoomStatus.INDISPONIVEL); // Garante que o quarto está indisponível se em uso
+            }
+        } else if (now.isAfter(reservation.getCheckout())) {
+            // Se a data atual é depois do check-out
+            if (reservation.getStatus() != ReservationStatus.FINISHED) {
+                reservation.setStatus(ReservationStatus.FINISHED);
+                reservationRepository.save(reservation);
+                roomService.updateRoomStatus(reservation.getRoom().getId(), RoomStatus.FREE); // Libera o quarto
+            }
+        }
     }
 
     // Método existente que recebe a reserva completa
@@ -73,14 +111,15 @@ public class ReservationService {
         BigDecimal total = reservation.getRoom().getDailyRate().multiply(BigDecimal.valueOf(days));
         reservation.setTotalValue(total);
 
-        // Seta status da reserva
-        reservation.setStatus(ReservationStatus.SCHEDULED);
+        // Define o status inicial da reserva (será atualizado dinamicamente depois)
+        reservation.setStatus(ReservationStatus.SCHEDULED); // Status inicial padrão
 
         // Salva reserva
         Reservation saved = reservationRepository.save(reservation);
 
-        // Atualiza status do quarto para OCCUPIED
-        roomService.updateRoomStatus(reservation.getRoom().getId(), RoomStatus.OCCUPIED);
+        // Atualiza status do quarto para INDISPONIVEL se a reserva estiver ativa (SCHEDULED ou IN_USE)
+        // A lógica de updateReservationStatusBasedOnDates já fará isso ao buscar
+        // roomService.updateRoomStatus(reservation.getRoom().getId(), RoomStatus.INDISPONIVEL);
 
         return saved;
     }
@@ -125,11 +164,12 @@ public class ReservationService {
 
     public void deleteReservation(Long id) {
         Reservation reservation = getReservationById(id); // Vai lançar exceção se não existir
-        reservationRepository.delete(reservation);
-
-        // Se quiser, pode atualizar o status do quarto para FREE aqui também
+        // Ao invés de deletar, vamos mudar o status para CANCELED e liberar o quarto
+        reservation.setStatus(ReservationStatus.CANCELED);
+        reservationRepository.save(reservation);
         roomService.updateRoomStatus(reservation.getRoom().getId(), RoomStatus.FREE);
     }
 
 }
+
 

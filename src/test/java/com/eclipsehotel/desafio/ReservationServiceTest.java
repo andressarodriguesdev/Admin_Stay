@@ -7,7 +7,6 @@ import com.eclipsehotel.desafio.services.ReservationService;
 import com.eclipsehotel.desafio.services.RoomService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -111,7 +110,7 @@ class ReservationServiceTest {
     void testCloseReservationSetsStatusAndFreesRoom() {
         Room room = new Room();
         room.setId(1L);
-        room.setStatus(RoomStatus.OCCUPIED);
+        room.setStatus(RoomStatus.INDISPONÍVEL);
 
         Reservation reservation = new Reservation();
         reservation.setId(1L);
