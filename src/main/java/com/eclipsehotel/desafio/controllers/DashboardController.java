@@ -71,14 +71,11 @@ public class DashboardController {
                 .limit(10) // Últimas 10 atividades
                 .toList();
     }
-
     @GetMapping("/active-reservations")
     public List<Reservation> getActiveReservations() {
-        // Reservas que estão atualmente em uso
-        return reservationService.getAllReservations().stream()
-                .filter(reservation -> "IN_USE".equals(reservation.getStatus().toString()))
-                .toList();
+        return reservationService.getOccupiedRooms(); // usa o método seguro com Enum
     }
+
 
     @GetMapping("/upcoming-checkins")
     public List<Reservation> getUpcomingCheckins() {

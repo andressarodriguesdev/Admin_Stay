@@ -117,9 +117,7 @@ public class ReservationService {
         // Salva reserva
         Reservation saved = reservationRepository.save(reservation);
 
-        // Atualiza status do quarto para INDISPONIVEL se a reserva estiver ativa (SCHEDULED ou IN_USE)
-        // A lógica de updateReservationStatusBasedOnDates já fará isso ao buscar
-        // roomService.updateRoomStatus(reservation.getRoom().getId(), RoomStatus.INDISPONIVEL);
+
 
         return saved;
     }
