@@ -71,13 +71,6 @@ $ mvn test
 Coleção Postman disponível em `docs/postman/` para chamadas manuais.
 
 
-## 🗺️ Roadmap
-
-- [ ] Autenticação & Autorização (Spring Security + JWT)
-- [ ] Deploy em Docker / Render / AWS
-- [ ] Integração com app front‑end (React + Vite + Tyrant)
-- [ ] Testes de Integração (Testcontainers)
-- [ ] Notificações para reservas futuras
 
 
 ## 🤝 Contribuindo
