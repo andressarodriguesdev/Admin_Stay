@@ -30,5 +30,43 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private RoomType type;
 
+    public Long getId() {
+        return id;
+    }
 
+    public String getNumber() {
+        return number;
+    }
+
+    public BigDecimal getDailyRate() {
+        return dailyRate;
+    }
+
+    public RoomStatus getStatus() {
+        return status;
+    }
+
+    public RoomType getType() {
+        return type;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public void setDailyRate(BigDecimal dailyRate) {
+        this.dailyRate = dailyRate;
+    }
+
+    public void setStatus(RoomStatus status) {
+        this.status = status;
+    }
+
+    public void setType(RoomType type) {
+        this.type = type;
+    }
 }

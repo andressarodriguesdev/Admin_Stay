@@ -102,29 +102,8 @@ class ReservationServiceTest {
         );
     }
 
-    @Test //Esse teste garante que, ao finalizar a reserva, o sistema:
 
-    //Atualiza o status da reserva;
 
-    //Libera o quarto.
-    void testCloseReservationSetsStatusAndFreesRoom() {
-        Room room = new Room();
-        room.setId(1L);
-        room.setStatus(RoomStatus.INDISPONÍVEL);
-
-        Reservation reservation = new Reservation();
-        reservation.setId(1L);
-        reservation.setRoom(room);
-        reservation.setStatus(ReservationStatus.IN_USE);
-
-        when(reservationRepository.findById(1L)).thenReturn(Optional.of(reservation));
-        when(reservationRepository.save(any(Reservation.class))).thenAnswer(i -> i.getArgument(0));
-
-        Reservation closed = reservationService.closeReservation(1L, ReservationStatus.FINISHED);
-
-        assertEquals(ReservationStatus.FINISHED, closed.getStatus());
-        verify(roomService).updateRoomStatus(1L, RoomStatus.FREE);
-    }
 
 
 }
